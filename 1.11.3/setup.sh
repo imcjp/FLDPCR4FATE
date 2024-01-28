@@ -44,7 +44,7 @@ if [ "$deploy_confirmation" != "Y" ]; then
 
     # 解压内容到子目录fateDir
     echo "Extracting standalone_fate_install_${version}_release.tar.gz to ${current_dir}/${fateDir}..."
-    tar -zxvf "${current_dir}/standalone_fate_install_${version}_release.tar.gz" -C "${current_dir}/${fateDir}"
+    tar -zxf "${current_dir}/standalone_fate_install_${version}_release.tar.gz" -C "${current_dir}/${fateDir}"
 fi
 
 # 下载v0.tar.gz并给它一个随机名字tmpName
@@ -60,7 +60,7 @@ fi
 
 # 解压tmpName到${current_dir}/${fateDir}
 echo "Extracting ${tmpName} to ${current_dir}/${fateDir}..."
-tar -zxvf "${current_dir}/${tmpName}" -C "${current_dir}/${fateDir}"
+tar -zxf "${current_dir}/${tmpName}" -C "${current_dir}/${fateDir}"
 rm -rf "${current_dir}/${tmpName}"
 
 echo "Deployment of FLDPCR to FATE V 1.11.3 completed successfully."
