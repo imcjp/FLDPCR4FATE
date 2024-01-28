@@ -4,8 +4,9 @@
 current_dir=$(pwd)
 
 # 询问用户部署的子目录
-echo "Please enter the subdirectory name to deploy in ${current_dir}:"
-read subdir
+subdir=${1:-fate}
+
+echo "You set the deployment directory to '${current_dir}/${subdir}':"
 
 # 检查子目录是否存在
 if [ -d "${current_dir}/${subdir}" ]; then
