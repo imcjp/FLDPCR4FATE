@@ -4,7 +4,12 @@
 current_dir=$(pwd)
 
 # 询问用户部署的子目录
-read -p "Please enter the subdirectory name to deploy in ${current_dir}: " subdir
+subdir=""
+
+while [ -z "$input" ]; do
+    echo "Please enter the subdirectory name to deploy in ${current_dir}:"
+    read subdir
+done
 
 # 检查子目录是否存在
 if [ -d "${current_dir}/${subdir}" ]; then
