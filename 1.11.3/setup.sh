@@ -16,10 +16,6 @@ if [ -d "${current_dir}/${subdir}" ]; then
         echo "Exiting."
         exit 1
     fi
-else
-    # 创建子目录
-    mkdir -p "${current_dir}/${subdir}"
-    echo "Subdirectory ${subdir} created."
 fi
 
 fateDir=${subdir}
@@ -65,5 +61,6 @@ fi
 echo "Extracting ${tmpName} to ${current_dir}/${fateDir}..."
 tar -zxf "${current_dir}/${tmpName}" -C "${current_dir}/${fateDir}"
 rm -rf "${current_dir}/${tmpName}"
+
 
 echo "Deployment of FLDPCR to FATE V 1.11.3 completed successfully."
