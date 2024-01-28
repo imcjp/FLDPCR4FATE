@@ -44,7 +44,10 @@ if [ "$deploy_confirmation" != "Y" ]; then
 
     # 解压内容到子目录fateDir
     echo "Extracting standalone_fate_install_${version}_release.tar.gz to ${current_dir}/${fateDir}..."
-    tar -zxf "${current_dir}/standalone_fate_install_${version}_release.tar.gz" -C "${current_dir}/${fateDir}"
+    tmp_dir="tmp_$(date +%Y%m%d%H%M%S)_$RANDOM"
+    mkdir -p "${current_dir}/${tmp_dir}"
+    tar -zxf "${current_dir}/standalone_fate_install_${version}_release.tar.gz" -C "${current_dir}/${tmp_dir}"
+    mv "${current_dir}/${tmp_dir}/standalone_fate_install_${version}_release" "${current_dir}/${fateDir}" && rm -rf "${current_dir}/${tmp_dir}"
 fi
 
 # 下载v0.tar.gz并给它一个随机名字tmpName
