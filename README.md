@@ -120,8 +120,7 @@ python examples/pipeline/homo_nn/fldpcr/pipeline-upload-mnist.py
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 10 --gpuId 0
 ```
 
-demo.py脚步的参数说明如下：
-
+**demo.py脚步的参数说明如下：**
 
 ```bash
 usage: demo.py [-h] [--nClient NCLIENT]
