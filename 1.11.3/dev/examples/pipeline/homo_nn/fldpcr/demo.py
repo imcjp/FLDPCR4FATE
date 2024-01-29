@@ -80,9 +80,9 @@ def main(args):
         'delta': args.dp_delta
     }
     if args.dpcrModel == 'SimpleMech':
-        algConf={'name':args.dpcrModel, 'T':1}
+        algConf={'name':args.dpcrModel}
     else:
-        algConf={'name':args.dpcrModel, 'kOrder':args.k}
+        algConf={'name':args.dpcrModel, 'args': {'kOrder': args.k}}
 
     nn_component = HomoNN(name=f'fldpcr_{args.dpcrModel}',
                           model=model,
@@ -114,7 +114,7 @@ def parse_args():
 
     # 添加参数
     parser.add_argument('--nClient', type=int, default=5, help='Number of clients for federated learning.')
-    parser.add_argument('--dpcrModel', type=str, default='ABCRG',
+    parser.add_argument('--dpcrModel', type=str, default='SimpleMech',
                         choices=['SimpleMech', 'TwoLevel', 'BinMech', 'FDA', 'BCRG', 'ABCRG'],
                         help='DPCR model. Choices are: SimpleMech (equivalent to traditional DP), TwoLevel, BinMech, FDA, BCRG, ABCRG. '
                              'For TwoLevel, T=k^2; for BinMech, T=2^k; for FDA, BCRG, and ABCRG, T=2^k-1. '
