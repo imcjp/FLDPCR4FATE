@@ -50,7 +50,7 @@ echo "{要使用的用户名}  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{要
 设置关联的FATE版本，可选的版本见本页面中以FATE版本号命名的文件夹。
 
 ```bash
-export version=2.0.0
+export version=1.11.3
 ```
 
 设置期望部署的文件夹，若用户指定 `${projName}`，后续将在当前目录的 `${projName}`文件夹下部署FLDPCR4FATE。请注意 `${projName}`文件夹应当在部署前不存在于当前目录。若${projName}不指定或未空，则默认部署到当前目录的fateProj文件夹。
