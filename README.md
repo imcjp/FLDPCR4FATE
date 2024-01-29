@@ -14,12 +14,6 @@
 - **操作系统:** CentOS (Ubuntu)
 - **用户:** User: app owner:apps
 
-单机版提供 3 种部署方式，可以根据实际情况选择：
-
-- 从 PyPI 安装 FATE
-- 使用 Docker 镜像安装 FATE
-- 在主机中安装 FATE (使用已编译的安装包)
-
 ## 2. FLDPCR4FATE的部署安装
 
 
@@ -49,10 +43,10 @@ echo "{要使用的用户名}  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{要
 export version=1.11.3
 ```
 
-设置期望部署的文件夹，若用户指定 `${projName}`，后续将在当前目录的 `${projName}`文件夹下部署FLDPCR4FATE。请注意 `${projName}`文件夹应当在部署前不存在于当前目录。若${projName}不指定或未空，则默认部署到当前目录的 `fateProj` 文件夹。
+设置期望部署的文件夹，若用户指定 `${projName}`，后续将在当前目录的 `${projName}`文件夹下部署FLDPCR4FATE。请注意 `${projName}`文件夹应当在部署前不存在于当前目录。若${projName}不指定或未空，则默认部署到当前目录的 `fate` 文件夹。
 
 ```bash
-export projName=fateProj
+export projName=fate
 ```
 
 **直接执行如下命令即可完成本项目的部署。**
@@ -73,6 +67,13 @@ curl -s https://raw.githubusercontent.com/imcjp/FLDPCR4FATE/main/${version}/setu
 ```bash
 cd ${projName};
 bash bin/init.sh init
+```
+
+- 若在执行 `bash bin/init.sh init` 时选择不安装GPU版运行库，后续也可以通过 `source bin/init_env.sh` 进入FATE环境安装，安装命令的参考如下：
+
+```bash
+pip uninstall -y torch torchvision # 先卸载已有运行库
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 # 安装GPU版运行库
 ```
 
 ### 2.4 启动
