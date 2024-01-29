@@ -114,7 +114,13 @@ python examples/pipeline/homo_nn/fldpcr/pipeline-upload-mnist.py
 **执行本项目所提供的FLDPCR学习示例。**
 
 ```bash
-python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 10 --gpuId 0
+python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
+```
+
+若没有GPU或未安装GPU运行库，建议执行以下CPU版本的示例：
+
+```bash
+python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 3 --gpuId -1
 ```
 
 **demo.py脚步的参数说明如下：**
