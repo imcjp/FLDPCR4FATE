@@ -80,7 +80,7 @@ bash bin/init.sh init
 ```bash
 bash bin/init.sh status （可选）
 bash bin/init.sh start
-bash bin/init.sh status （可选，若顺利，则正在运行）
+bash bin/init.sh status （可选，若顺利，则显示正在运行）
 ```
 
 ### 2.5 关闭
