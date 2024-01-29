@@ -1,0 +1,16 @@
+{
+  "dataBatch": [
+    {
+      "batch_name": "mnist_train",
+      "id_from": 1,
+      "id_end": 20,
+      "id_step": 1,
+      "file": "examples/data/mnist_csv/mnist_train_parts/p{id}.csv",
+      "head": 1,
+      "partition": 16,
+      "table_name": "mnist_train_part_{id}",
+      "namespace": "cjp",
+      "count": 3000
+    }
+  ]
+}
