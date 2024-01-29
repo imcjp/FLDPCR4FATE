@@ -125,14 +125,41 @@ python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 3 --gpuId -1
 
 #### 实验结果对比：
 
-对于nIter=40，使用传统差分隐私的情况（dpcrModel=SimpleMech），命令如下：
+- 对于nIter=40，使用传统差分隐私的情况（dpcrModel=SimpleMech），命令如下：
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
 ```
 
 实验结果如下：
+![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_SimpleMech.png)
 
+可以看出传统差分隐私学习方法效果并不好，40次训练下来Loss仍高达**3.41**。
+
+- 对于nIter=40，使用我们提出的BCRG方法（dpcrModel=BCRG，k=12），命令如下：
+
+```bash
+python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0 --dpcrModel BCRG --k 12
+```
+
+实验结果如下：
+![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_BCRG.png)
+
+可以看出BCRG已经极大降低了训练的Loss值，40次训练下来Loss降到了**0.68**。
+
+
+- 对于nIter=40，使用BCRG方法的改进版本ABCRG（dpcrModel=ABCRG，k=12），命令如下：
+
+```bash
+python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0 --dpcrModel ABCRG --k 12
+```
+
+实验结果如下：
+![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_ABCRG.png)
+
+可以看出ABCRG进一步降低训练的Loss值，40次训练下来Loss进一步降到了**0.635**。
+
+**实验结论：我们提出的方法能够显著提升隐私联邦学习的训练效果。**
 
 **demo.py脚步的参数说明如下：**
 
