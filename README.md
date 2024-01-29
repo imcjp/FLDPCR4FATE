@@ -1,10 +1,6 @@
 # FLDPCR4FATE
  这是一个将FLDPCR集成于FATE框架的项目
 
-curl -s https://raw.githubusercontent.com/imcjp/FLDPCR4FATE/main/1.11.3/setup.sh | bash -s -- [name]
-
-
-
 ## 1. 说明
 
 **FLDPCR4FATE**项目是一个将FLDPCR技术集成到FATE框架中的创新性工作，弥补了现有FATE框架不支持差分隐私的问题。通过结合FLDPCR，该项目不仅增强了数据隐私保护，还显著提高了差分隐私下联邦学习的学习精度。
