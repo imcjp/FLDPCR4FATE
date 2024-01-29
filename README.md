@@ -102,7 +102,7 @@ bash bin/init.sh status （可选，若顺利，则显示关闭）
 
 ```bash
 source bin/init_env.sh
-```bash
+```
 
 ### 3.2 上传数据
 
