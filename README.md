@@ -23,7 +23,7 @@
 ## 2. FLDPCR4FATE的部署安装
 
 
-**注意:** FLDPCR4FATE的安装依赖于具体的FATE版本，可选的版本见本页面中以FATE版本号命名的文件夹。例如，文件夹1.11.3表示在版本号为1.11.3的FATE基础上部署FLDPCR。用户在安装是可以通过 `${version}`自行指定。
+**注意:** FLDPCR4FATE的安装依赖于具体的FATE版本，可选的版本参加见本页面中以FATE版本号命名的文件夹。例如，文件夹1.11.3表示在版本号为1.11.3的FATE基础上部署FLDPCR。用户在安装是可以通过 `${version}`自行指定。
 
 ### 2.1 部署前环境检查
 
@@ -43,7 +43,7 @@ echo "{要使用的用户名}  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{要
 
 ### 2.2 FLDPCR4FATE的部署
 
-设置关联的FATE版本，可选的版本见本页面中以FATE版本号命名的文件夹。
+设置关联的FATE版本，可选的版本**参见本页面中以FATE版本号命名的文件夹**。
 
 ```bash
 export version=1.11.3
