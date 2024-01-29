@@ -111,7 +111,7 @@ python examples/pipeline/homo_nn/fldpcr/pipeline-upload-mnist.py
 
 ### 3.3 启动隐私训练
 
-**执行本项目所提供的FLDPCR学习示例。**
+**执行本项目所提供的FLDPCR学习示例。（使用SimpleMech，相当于传统的差分隐私）**
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
@@ -122,6 +122,17 @@ python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 3 --gpuId -1
 ```
+
+#### 实验结果对比：
+
+对于nIter=40，使用传统差分隐私的情况（dpcrModel=SimpleMech），命令如下：
+
+```bash
+python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
+```
+
+实验结果如下：
+
 
 **demo.py脚步的参数说明如下：**
 
