@@ -15,7 +15,6 @@ from federatedml.evaluation.evaluation import Evaluation
 from federatedml.model_base import Metric, MetricMeta
 from federatedml.param import EvaluateParam
 
-# from myutils.debug import myLog, saveDataset
 
 class StdReturnFormat(object):
 
@@ -451,17 +450,6 @@ class TrainerBase(object):
                 metric_namespace="train",
                 metrics=[Metric(epoch_idx, loss)],
             )
-        # TODO cjp:
-        # if self._tracker is not None:
-        #     self._tracker.log_metric_data(
-        #         metric_name="loss",
-        #         metric_namespace="train",
-        #         metrics=[Metric(epoch_idx, loss)],
-        #     )
-        #     self.callback_metric(metric_name='val',value=epoch_idx/3.0,epoch_idx=epoch_idx)
-        #     myLog(f'[TrainerBase.callback_loss] self._tracker: {str(self._tracker.__dict__)}')
-        #     myLog(f'[TrainerBase.callback_loss] type(self._tracker): {str(type(self._tracker._tracker))}')
-        ############################
 
     def summary(self, summary_dict: dict):
 
@@ -503,9 +491,6 @@ class TrainerBase(object):
         label = label.tolist()
         assert len(pred_scores) == len(
             label), 'the length of predict score != the length of label, pred {} and label {}'.format(len(pred_scores), len(label))
-        # TODO cjp:
-        # myLog(f'[TrainerBase.evaluation]')
-        ########################################
         eval_data = []
         for id_, s, l in zip(sample_ids, pred_scores, label):
             if task_type == consts.REGRESSION:
@@ -519,8 +504,6 @@ class TrainerBase(object):
 
         eval_result = eval_obj.evaluate_metrics(dataset_type, eval_data)
 
-        # myLog(f'[TrainerBase.evaluation] eval_result: {str(eval_result)}')
-        # myLog(f'[TrainerBase.evaluation] self._tracker: {str(self._tracker)}')
         if self._tracker is not None:
             eval_obj.set_tracker(self._tracker)
             # send result to fate-board

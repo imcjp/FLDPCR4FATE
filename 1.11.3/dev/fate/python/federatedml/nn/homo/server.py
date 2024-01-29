@@ -11,13 +11,9 @@ from federatedml.util import consts
 from federatedml.nn.backend.utils.common import global_seed
 
 
-# from myutils.debug import myLog
 class HomoNNServer(ModelBase):
 
     def __init__(self):
-        # TODO cjp:
-        # myLog('[HomoNNServer.__init__]')
-        ############################
         super(HomoNNServer, self).__init__()
         self.model_param = HomoNNParam()
         self.trainer = consts.FEDAVG_TRAINER
@@ -46,9 +42,6 @@ class HomoNNServer(ModelBase):
         self.ds_config = None
 
     def export_model(self):
-        # TODO cjp:
-        # myLog('[HomoNNServer.export_model]')
-        ############################
 
         if self.model is None:
             LOGGER.debug('export an empty model')
@@ -57,10 +50,6 @@ class HomoNNServer(ModelBase):
         return self.model
 
     def load_model(self, model_dict):
-        # TODO cjp:
-        # myLog('[HomoNNServer.load_model]')
-        ############################
-
         if model_dict is not None:
             model_dict = list(model_dict["model"].values())[0]
             self.model = model_dict
@@ -71,10 +60,6 @@ class HomoNNServer(ModelBase):
             self.model_loaded = True
 
     def _init_model(self, param: HomoNNParam()):
-        # TODO cjp:
-        # myLog('[HomoNNServer._init_model]')
-        ############################
-
         train_param = param.trainer.to_dict()
         dataset_param = param.dataset.to_dict()
         self.trainer = train_param['trainer_name']
@@ -91,10 +76,6 @@ class HomoNNServer(ModelBase):
         self.server_init = param.server_init
 
     def fit(self, data_instance=None, validate_data=None):
-        # TODO cjp:
-        # myLog('[HomoNNServer.fit]')
-        ############################
-
         # fate loss callback setting
         self.callback_meta(
             "loss", "train", MetricMeta(
@@ -152,7 +133,4 @@ class HomoNNServer(ModelBase):
         self.set_summary(trainer_inst.get_summary())
 
     def predict(self, data_inst):
-        # TODO cjp:
-        # myLog('[HomoNNServer.predict]')
-        ############################
         return None

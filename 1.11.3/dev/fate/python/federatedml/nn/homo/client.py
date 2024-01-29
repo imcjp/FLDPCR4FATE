@@ -96,9 +96,6 @@ def default_client_post_process(trainer):
 class HomoNNClient(ModelBase):
 
     def __init__(self):
-        # TODO cjp:
-        # myLog('[HomoNNClient.__init__]')
-        ############################
         super(HomoNNClient, self).__init__()
         self.model_param = HomoNNParam()
         self.trainer = consts.FEDAVG_TRAINER
@@ -134,10 +131,6 @@ class HomoNNClient(ModelBase):
         self.model_save_flag = False
 
     def _init_model(self, param: HomoNNParam):
-        # TODO cjp:
-        # myLog('[HomoNNClient._init_model]')
-        ############################
-
         train_param = param.trainer.to_dict()
         dataset_param = param.dataset.to_dict()
         self.trainer = train_param['trainer_name']
@@ -151,19 +144,6 @@ class HomoNNClient(ModelBase):
         self.ds_config = param.ds_config
 
     def fit(self, train_input, validate_input=None):
-        # TODO cjp:
-        # myLog('[HomoNNClient.fit]')
-        ############################
-        # myLog(f'[HomoNNClient.fit] self.component_properties： {str(self.component_properties.__dict__)}')
-        # LOGGER.debug('train input is {}'.format(train_input))
-        # TODO cjp:
-        # import os
-        # dt={}
-        # for key, value in os.environ.items():
-        #     dt[key]=value
-        # myLog(str(train_input.__dict__))
-        # myLog(str(type(train_input)))
-        ############################
         # train input & validate input are DTables or path str
         if not is_table(train_input):
             if isinstance(train_input, LocalData):
@@ -188,24 +168,9 @@ class HomoNNClient(ModelBase):
         # set random seed
         global_seed(self.torch_seed)
 
-        # TODO cjp:
-        # self.nn_define用Json记录了神经网络的模型，例如：
-        # {'0-0': {'bias': True, 'device': None, 'dtype': None, 'in_features': 18, 'out_features': 4, 'layer': 'Linear', 'initializer': {}}, '1-1': {'dim': 1, 'layer': 'Softmax', 'initializer': {}}}
-        # try:
-        #     self.trainer_inst.set_component_properties(self.component_properties)
-        # except:
-        #     pass
         trainer_paramTmp=self.trainer_param.copy()
         if self.trainer=='fedavg_trainer_1':
             trainer_paramTmp['component_properties']=self.component_properties
-        # myLog(f'self:{str(self.__dict__)}')
-        # myLog(f'[HomoNNClient.fit] model:{str(model)}')
-        # myLog(f'[HomoNNClient.fit] [model.__dict__] {str(model.__dict__)}')
-        # myLog(f'[HomoNNClient.fit] [model.__dict__] {str(type(model))}')
-        # mds=[md for md in model.parameters()]
-        # myLog(f'[HomoNNClient.fit] mds[0].device:{str(mds[0].device)}')
-
-        ############################
 
         # init
         self.trainer_inst, model, optimizer, loss_fn, extra_data, self.optimizer, self.loss, self.warm_start_iter = init(
@@ -319,9 +284,6 @@ class HomoNNClient(ModelBase):
         return ret_table
 
     def export_model(self):
-        # TODO cjp:
-        # myLog('[HomoNNClient.export_model]')
-        ############################
         if self.model is None:
             LOGGER.debug('export an empty model')
             return self.exporter.export_model_dict()  # return an empty model
@@ -329,10 +291,6 @@ class HomoNNClient(ModelBase):
         return self.model
 
     def load_model(self, model_dict):
-        # TODO cjp:
-        # myLog('[HomoNNClient.load_model]')
-        ############################
-
         model_dict = list(model_dict["model"].values())[0]
         self.model = model_dict
         self.model_loaded = True
@@ -340,9 +298,6 @@ class HomoNNClient(ModelBase):
     # override function
     @staticmethod
     def set_predict_data_schema(predict_datas, schemas):
-        # TODO cjp:
-        # myLog('[HomoNNClient.set_predict_data_schema]')
-        ############################
         if predict_datas is None:
             return predict_datas
         if isinstance(predict_datas, list):

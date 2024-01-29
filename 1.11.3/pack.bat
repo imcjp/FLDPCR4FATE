@@ -1,3 +1,3 @@
 @echo off
 cd dev
-tar -czvf ../v0.tar.gz *
+tar -czvf ../v1.tar.gz *

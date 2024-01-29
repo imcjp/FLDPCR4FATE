@@ -9,7 +9,6 @@ LLM_MODEL_PATH = '{}.model_zoo'.format(LLM_PATH)
 MODEL_PATH = '{}.model_zoo'.format(ML_PATH)
 LOSS_PATH = '{}.loss'.format(ML_PATH)
 
-# from myutils.debug import myLog
 
 def str_simi(str_a, str_b):
     return difflib.SequenceMatcher(None, str_a, str_b).quick_ratio()
@@ -20,14 +19,8 @@ def get_class(module_name, class_name, param, base_path):
     if module_name.endswith('.py'):
         module_name = module_name.replace('.py', '')
 
-    # # TODO cjp:
-    # myLog(f"[cust.get_class] {base_path}.{module_name}")
-    # #############################
     nn_modules = importlib.import_module(
         '{}.{}'.format(base_path, module_name))
-    # # TODO cjp:
-    # myLog(f"[cust.get_class] nn_modules:{str(nn_modules)}")
-    # #############################
     try:
         name_simi_list = []
         for k, v in nn_modules.__dict__.items():

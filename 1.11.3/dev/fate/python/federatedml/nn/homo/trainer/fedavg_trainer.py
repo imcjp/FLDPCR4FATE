@@ -16,7 +16,6 @@ from federatedml.nn.homo.trainer.trainer_base import TrainerBase
 from federatedml.util import LOGGER, consts
 from federatedml.optim.convergence import converge_func_factory
 
-# from myutils.debug import myLog
 
 class FedAVGTrainer(TrainerBase):
     """
@@ -394,10 +393,6 @@ class FedAVGTrainer(TrainerBase):
 
         self.on_loop_begin_client()
 
-        # TODO cjp:
-        # myLog(f'[FedAVGTrainer.train] self.__dict__: {str(self.__dict__)}')
-        # myLog(f'[FedAVGTrainer.train] self.__dict__: {str(self.__dict__)}')
-        ########################################
         # training process
         for i in range(self.epochs):
 

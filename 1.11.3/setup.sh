@@ -6,6 +6,9 @@ current_dir=$(pwd)
 # 询问用户部署的子目录
 subdir=${1:-fate}
 
+# 压缩包名称
+tarName=v1.tar.gz
+
 echo "You set the deployment directory to '${current_dir}/${subdir}':"
 
 # 检查子目录是否存在
@@ -47,14 +50,14 @@ if [ "$deploy_confirmation" != "Y" ]; then
     mv "${current_dir}/${tmp_dir}/standalone_fate_install_${version}_release" "${current_dir}/${fateDir}" && rm -rf "${current_dir}/${tmp_dir}"
 fi
 
-# 下载v0.tar.gz并给它一个随机名字tmpName
+# 下载FLDPCR相关压缩包并给它一个随机名字tmpName
 tmpName=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 16).tar.gz
-echo "Downloading v0.tar.gz as ${tmpName}..."
-wget -O "${current_dir}/${tmpName}" "https://raw.githubusercontent.com/imcjp/FLDPCR4FATE/main/1.11.3/v0.tar.gz"
+echo "Downloading ${tarName} as ${tmpName}..."
+wget -O "${current_dir}/${tmpName}" "https://raw.githubusercontent.com/imcjp/FLDPCR4FATE/main/1.11.3/${tarName}"
 
 # 检查下载是否成功
 if [ ! -f "${current_dir}/${tmpName}" ]; then
-    echo "Download of v0.tar.gz failed. Please check the URL or network connection."
+    echo "Download of ${tarName} failed. Please check the URL or network connection."
     exit 1
 fi
 

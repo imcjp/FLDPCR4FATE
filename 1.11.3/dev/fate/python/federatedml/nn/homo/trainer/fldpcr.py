@@ -16,12 +16,9 @@ from federatedml.nn.homo.trainer.trainer_base import TrainerBase
 from federatedml.util import LOGGER, consts
 from federatedml.optim.convergence import converge_func_factory
 
-# from myutils.debug import myLog, saveDataset
 ###################################
 import dpcrpy
 from opacus_dpcr.dpcr_engine import DPCREngine
-
-
 ###################################
 
 class FLDPCR(TrainerBase):
@@ -84,12 +81,7 @@ class FLDPCR(TrainerBase):
 
         super(FLDPCR, self).__init__()
 
-        # TODO cjp:
         self.component_properties = component_properties;
-        ############################
-        # TODO cjp: 待去除的参数
-
-        ############################
         # training parameters
         self.epochs = epochs
         self.tol = tol
@@ -172,15 +164,10 @@ class FLDPCR(TrainerBase):
         self.client_agg = None
         self.server_agg = None
         self.aggregate_round = None
-        # TODO cjp: 临时参数
         self.sigma = dpConf['sigma']
         self.max_norm=dpConf['max_norm']
         self.delta=dpConf['delta']
-        # self.algConf = {'dpcrModel': {'name': 'BinMech', 'args': {'kOrder': 12}},
-        #                 'aggrMode': 'byDatasetSize'}
         self.algConf=algConf
-        # if self.getLocalPartyId() == 200:
-        #     myLog(f'[FLDPCR.__init__@{str(self.getLocalPartyId())}] self.__dict__: {str(self.__dict__)}')
         ########################################
 
     def getLocalPartyId(self):
@@ -189,10 +176,6 @@ class FLDPCR(TrainerBase):
         return self.component_properties.local_partyid
 
     def _init_aggregator(self, train_set):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._init_aggregator]')
-        ############################
         # compute round to aggregate
         cur_agg_round = 0
         if self.aggregate_every_n_epoch is not None:
@@ -218,11 +201,6 @@ class FLDPCR(TrainerBase):
         return client_agg, aggregate_round
 
     def set_model(self, model: t.nn.Module):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.set_model]')
-        ############################
-
         if not issubclass(type(model), t.nn.Module):
             raise ValueError('model must be a subclass of pytorch nn.Module')
         self.model = model
@@ -233,10 +211,6 @@ class FLDPCR(TrainerBase):
                 self.parallel_model = DataParallel(model, device_ids=self.cuda, output_device=self.cuda_main_device)
 
     def _select_model(self):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._select_model]')
-        ############################
         if self.data_parallel:
             return self.parallel_model
         else:
@@ -244,10 +218,6 @@ class FLDPCR(TrainerBase):
 
 
     def dp_train_an_epoch(self, epoch_idx, model, train_set, optimizer, loss_func):
-        # TODO cjp: dp_train_an_epoch
-        # if self.getLocalPartyId() == 200:
-        #     myLog(f'[FLDPCR.dp_train_an_epoch] type(model): {str(type(model))}|type(optimizer): {str(type(optimizer))}|type(loss_func): {str(type(loss_func))}')
-        ############################
 
         epoch_loss = 0.0
         batch_idx = 0
@@ -268,20 +238,12 @@ class FLDPCR(TrainerBase):
 
         batch_label = None
 
-        # TODO cjp:
-        tId = 0
-        #############################
         for _batch_iter in to_iterate:
             _batch_iter = self._decode(_batch_iter)
             if isinstance(_batch_iter, list) or isinstance(_batch_iter, tuple):
                 batch_data, batch_label = _batch_iter
             else:
                 batch_data = _batch_iter
-            # TODO cjp:
-            # if epoch_idx==0 and tId==0:
-            #     myLog(f'保存{self.component_properties.local_partyid}的数据集样本')
-            #     saveDataset(batch_data,self.component_properties.local_partyid)
-            #############################
             if self.cuda is not None or self._enable_deepspeed:
                 device = self.cuda_main_device if self.cuda_main_device is not None else self.model.device
                 batch_data = self.to_cuda(batch_data, device)
@@ -293,12 +255,6 @@ class FLDPCR(TrainerBase):
             else:
                 model.zero_grad()
 
-            # TODO cjp: 检验是否是GPU执行
-            # if epoch_idx==0 and tId==0:
-            #     mds=[md for md in model.parameters()]
-            #     myLog(f'[FLDPCR.train_an_epoch] mds[0].device: {str(mds[0].device)}')
-            #     myLog(f'[FLDPCR.train_an_epoch] batch_data.device: {str(batch_data.device)}')
-            #############################
             pred = model(batch_data)
 
             if not loss_func and hasattr(pred, "loss"):
@@ -347,21 +303,11 @@ class FLDPCR(TrainerBase):
                         LOGGER.debug(f"Training progress of epoch {epoch_idx}: {percentage:.1f}%")
                 else:
                     LOGGER.debug("Training epoch {}:batch {}".format(epoch_idx, batch_idx))
-            # TODO cjp:
-            tId += 1;
-            #############################
 
-        # # TODO cjp:
-        # myLog(f'[FLDPCR.train_an_epoch] id({self.component_properties.local_partyid}: epoch {epoch_idx}, inner epoch {tId}')
-        # #############################
         epoch_loss = epoch_loss / len(train_set)
         return epoch_loss
 
     def train_an_epoch(self, epoch_idx, model, train_set, optimizer, loss_func):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.train_an_epoch]')
-        ############################
 
         epoch_loss = 0.0
         batch_idx = 0
@@ -382,20 +328,12 @@ class FLDPCR(TrainerBase):
 
         batch_label = None
 
-        # TODO cjp:
-        tId = 0
-        #############################
         for _batch_iter in to_iterate:
             _batch_iter = self._decode(_batch_iter)
             if isinstance(_batch_iter, list) or isinstance(_batch_iter, tuple):
                 batch_data, batch_label = _batch_iter
             else:
                 batch_data = _batch_iter
-            # TODO cjp:
-            # if epoch_idx==0 and tId==0:
-            #     myLog(f'保存{self.component_properties.local_partyid}的数据集样本')
-            #     saveDataset(batch_data,self.component_properties.local_partyid)
-            #############################
             if self.cuda is not None or self._enable_deepspeed:
                 device = self.cuda_main_device if self.cuda_main_device is not None else self.model.device
                 batch_data = self.to_cuda(batch_data, device)
@@ -407,12 +345,6 @@ class FLDPCR(TrainerBase):
             else:
                 model.zero_grad()
 
-            # TODO cjp: 检验是否是GPU执行
-            # if epoch_idx==0 and tId==0:
-            #     mds=[md for md in model.parameters()]
-            #     myLog(f'[FLDPCR.train_an_epoch] mds[0].device: {str(mds[0].device)}')
-            #     myLog(f'[FLDPCR.train_an_epoch] batch_data.device: {str(batch_data.device)}')
-            #############################
             pred = model(batch_data)
 
             if not loss_func and hasattr(pred, "loss"):
@@ -461,18 +393,11 @@ class FLDPCR(TrainerBase):
                         LOGGER.debug(f"Training progress of epoch {epoch_idx}: {percentage:.1f}%")
                 else:
                     LOGGER.debug("Training epoch {}:batch {}".format(epoch_idx, batch_idx))
-            # TODO cjp:
-            tId += 1;
-            #############################
 
-        # # TODO cjp:
-        # myLog(f'[FLDPCR.train_an_epoch] id({self.component_properties.local_partyid}: epoch {epoch_idx}, inner epoch {tId}')
-        # #############################
         epoch_loss = epoch_loss / len(train_set)
         return epoch_loss
 
     def on_loop_begin_client(self, **kwargs):
-        # TODO cjp: 构建FL-DPCR模型
         genBk = lambda x: dpcrpy.gen(self.algConf['name'],
                                      self.algConf.get('args', None))
         self.privacy_engine = DPCREngine(secure_mode=False, dpcrGenerator=genBk)
@@ -485,37 +410,17 @@ class FLDPCR(TrainerBase):
             noise_multiplier=self.sigma,
             max_grad_norm=self.max_norm
         )
-        # if self.getLocalPartyId() == 200:
-        #     myLog(f'[FLDPCR.on_loop_begin_client] self.__dict__: {str(self.__dict__)}')
-        ############################
-        pass
 
     def on_loop_end_client(self, **kwargs):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.on_loop_end_client]')
-        ############################
         pass
 
     def on_loop_begin_server(self, **kwargs):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.on_loop_begin_server]')
-        ############################
         pass
 
     def on_loop_end_server(self, **kwargs):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.on_loop_end_server]')
-        ############################
         pass
 
     def _client_sends_data(self, epoch_idx, epoch_loss, cur_agg_round):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._client_sends_data]')
-        ############################
         need_stop = False
         if self.client_agg is not None or distributed_util.is_distributed():
             if not (self.aggregate_every_n_epoch is not None and (epoch_idx + 1) % self.aggregate_every_n_epoch != 0):
@@ -552,20 +457,11 @@ class FLDPCR(TrainerBase):
         return need_stop
 
     def _server_aggregates_data(self, epoch_idx, check_converge, converge_func):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._server_aggregates_data]')
-        ############################
-
         need_stop = False
         if not (self.aggregate_every_n_epoch is not None and (epoch_idx + 1) % self.aggregate_every_n_epoch != 0):
 
             # model aggregate
             self.server_agg.model_aggregation()
-
-            # TODO cjp:
-            # myLog(f'[FLDPCR._server_aggregates_data] self.server_agg: {str(type(self.server_agg))}')
-            ########################################
 
             # loss aggregate
             agg_loss, converge_status = self.server_agg.loss_aggregation(
@@ -592,10 +488,6 @@ class FLDPCR(TrainerBase):
             loss=None,
             extra_dict={}):
 
-        # TODO cjp: train
-        # if self.getLocalPartyId() == 200:
-        #     myLog(f'[FLDPCR.train@{str(self.getLocalPartyId())}]')
-        ############################
         if optimizer is None:
             raise ValueError(
                 'An optimizer is required, but got None, please specify optimizer in the '
@@ -620,12 +512,6 @@ class FLDPCR(TrainerBase):
         self.data_loader = self._get_train_data_loader(train_set)
 
         self.on_loop_begin_client()
-        # TODO cjp:
-        # myLog(f'[FLDPCR.train] self.__dict__: {str(self.__dict__)}')
-        # myLog(f'[FLDPCR.train] self.client_agg.__dict__: {str(self.client_agg.__dict__)}')
-        # myLog(f'[FLDPCR.train] self.data_loader.__dict__: {str(self.data_loader.__dict__)}')
-        # myLog(f'[FLDPCR.train] self.component_properties.__dict__: {str(self.component_properties.__dict__)}')
-        ########################################
 
         # training process
         for i in range(self.epochs):
@@ -646,7 +532,6 @@ class FLDPCR(TrainerBase):
                 self.callback_metric(metric_name=f'隐私开销(ε)', value=epsUsed, epoch_idx=i)
                 self.callback_metric(metric_name=f'隐私开销(δ)', value=self.delta, epoch_idx=i)
                 loss_history.append(float(epoch_loss))
-            ########################################
 
             # federation process, if running local mode, cancel federation
             need_stop = self._client_sends_data(i, epoch_loss, cur_agg_round)
@@ -656,9 +541,6 @@ class FLDPCR(TrainerBase):
             if self.validation_freq and ((i + 1) % self.validation_freq == 0):
                 LOGGER.info('running validation')
                 ids_t, pred_t, label_t = self._predict(train_set)
-                # TODO cjp:
-                # myLog(f'[FLDPCR.train] self._predict(train_set)=> ids_t:{len(ids_t)} pred_t:{len(pred_t)} label_t:{len(label_t)}')
-                ########################################
                 evaluation_summary = self.evaluation(
                     ids_t,
                     pred_t,
@@ -726,10 +608,6 @@ class FLDPCR(TrainerBase):
             })
 
     def _predict(self, dataset: Dataset):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._predict]')
-        ############################
         pred_result = []
 
         # switch eval mode
@@ -773,10 +651,6 @@ class FLDPCR(TrainerBase):
         return dataset.get_sample_ids(), ret_rs, ret_label
 
     def predict(self, dataset: Dataset):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.predict]')
-        ############################
         if self.task_type in [consts.CAUSAL_LM, consts.SEQ_2_SEQ_LM]:
             LOGGER.warning(f"Not support prediction of task_types={[consts.CAUSAL_LM, consts.SEQ_2_SEQ_LM]}")
             return
@@ -793,11 +667,6 @@ class FLDPCR(TrainerBase):
             return ret_rs, ret_label
 
     def server_aggregate_procedure(self, extra_data={}):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR.server_aggregate_procedure]')
-        ############################
-
         # converge status
         check_converge = False
         converge_func = None
@@ -828,20 +697,12 @@ class FLDPCR(TrainerBase):
             LOGGER.info('sever side model saved')
 
     def _decode(self, data):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._decode]')
-        ############################
         if isinstance(data, transformers.tokenization_utils_base.BatchEncoding):
             return dict(data)
         else:
             return data
 
     def _get_batch_size(self, data):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._get_batch_size]')
-        ############################
         if isinstance(data, list):
             return len(data)
         elif isinstance(data, dict):
@@ -855,10 +716,6 @@ class FLDPCR(TrainerBase):
         raise ValueError("cat not infer batch size from data")
 
     def _get_collate_fn(self, dataset):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._get_collate_fn]')
-        ############################
         if not self.collate_fn and not hasattr(dataset, "collate_fn"):
             return None
         if self.collate_fn:
@@ -870,10 +727,6 @@ class FLDPCR(TrainerBase):
             return dataset.collate_fn
 
     def _get_train_data_loader(self, train_set):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._get_train_data_loader]')
-        ############################
         collate_fn = self._get_collate_fn(train_set)
 
         if not distributed_util.is_distributed() or distributed_util.get_num_workers() <= 1:
@@ -903,10 +756,6 @@ class FLDPCR(TrainerBase):
         return data_loader
 
     def _share_model(self, sync_trainable_only=True):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._share_model]')
-        ############################
         if distributed_util.is_rank_0():
 
             for p in self.model.parameters():
@@ -920,10 +769,6 @@ class FLDPCR(TrainerBase):
                     dist.scatter(p.data, src=0, async_op=False)
 
     def _sync_converge_status(self, converge_status=None):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._sync_converge_status]')
-        ############################
         if distributed_util.is_rank_0():
             t_status = self.to_cuda(torch.Tensor([converge_status]), self.model.device)
             dist.scatter(t_status, [t_status for _ in range(distributed_util.get_num_workers())], async_op=False)
@@ -933,10 +778,6 @@ class FLDPCR(TrainerBase):
             return t_status[0].item()
 
     def _sync_loss(self, loss):
-        # TODO cjp:
-        # if self.getLocalPartyId() == 200:
-        #     myLog('[FLDPCR._sync_loss]')
-        ############################
         if distributed_util.get_num_workers() == 1:
             return loss
 
