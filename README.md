@@ -179,7 +179,7 @@ usage: demo.py [-h] [--nClient NCLIENT]
   Number of clients for federated learning.
 
 - `--dpcrModel {SimpleMech,TwoLevel,BinMech,FDA,BCRG,ABCRG}`  
-  Specify the DPCR model to use. Choices are: `SimpleMech` (equivalent to traditional DP, ignore parameter $k$), `TwoLevel`, `BinMech`, `FDA`, `BCRG`, `ABCRG`. For `TwoLevel`, T=k^2; for `BinMech`, $T=2^k$; for `FDA`, `BCRG`, and `ABCRG`, $T=2^k-1$. If the actual number of iterations exceeds T, a new DPCR model will be constructed for training.
+  Specify the DPCR model to use. Choices are: `SimpleMech` (equivalent to traditional DP, ignore parameter $k$), `TwoLevel`, `BinMech`, `FDA`, `BCRG`, `ABCRG`. For `TwoLevel`, $T=k^2$; for `BinMech`, $T=2^k$; for `FDA`, `BCRG`, and `ABCRG`, $T=2^k-1$. If the actual number of iterations exceeds T, a new DPCR model will be constructed for training.
 
 - `--nIter NITER`  
   Number of iterations for training.
