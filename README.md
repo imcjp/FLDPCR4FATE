@@ -1,27 +1,27 @@
 # FLDPCR4FATE
- 这是一个将FLDPCR集成于FATE框架的项目
+ 這是一個將FLDPCR集成於FATE框架的項目
 
-## 1. 说明
+## 1. 說明
 
-**FLDPCR4FATE**项目是一个将FLDPCR技术集成到FATE框架中的创新性工作，弥补了现有FATE框架不支持差分隐私的问题。通过结合FLDPCR，该项目不仅增强了数据隐私保护，还显著提高了差分隐私下联邦学习的学习精度。
-相关技术项目可参加GitHub链接：[FLDPCR](https://github.com/imcjp/FLDPCR) 和 [Opacus-DPCR](https://github.com/imcjp/Opacus-DPCR)。这一技术的集成，为追求数据隐私保护与模型性能之间平衡的研究者和开发者提供了一个重要的工具。
-
-
-**服务器配置：**
-
-- **数量:** 1
-- **配置:** 8 核 / 16GB 内存 / 500GB 硬盘 / GPU(可选）
-- **操作系统:** CentOS (Ubuntu)
-- **用户:** User: app owner:apps
-
-## 2. FLDPCR4FATE的部署安装
+**FLDPCR4FATE**項目是一個將FLDPCR技術集成到FATE框架中的創新性工作，彌補了現有FATE框架不支持差分隱私的問題。通過結合FLDPCR，該項目不僅增強了數據隱私保護，還顯著提高了差分隱私下聯邦學習的學習精度。
+相關技術項目可參加GitHub鏈接：[FLDPCR](https://github.com/imcjp/FLDPCR) 和 [Opacus-DPCR](https://github.com/imcjp/Opacus-DPCR)。這一技術的集成，爲追求數據隱私保護與模型性能之間平衡的研究者和開發者提供了一個重要的工具。
 
 
-**注意:** FLDPCR4FATE的安装依赖于具体的FATE版本，可选的版本参加见本页面中以FATE版本号命名的文件夹。例如，文件夹1.11.3表示在版本号为1.11.3的FATE基础上部署FLDPCR。用户在安装是可以通过 `${version}`自行指定。
+**服務器配置：**
 
-### 2.1 部署前环境检查
+- **數量:** 1
+- **配置:** 8 核 / 16GB 內存 / 500GB 硬盤 / GPU(可選）
+- **操作系統:** CentOS (Ubuntu)
+- **用戶:** User: app owner:apps
 
-检查本地端口 8080、9360 和 9380 是否被占用。
+## 2. FLDPCR4FATE的部署安裝
+
+
+**注意:** FLDPCR4FATE的安裝依賴於具體的FATE版本，可選的版本參加見本頁面中以FATE版本號命名的文件夾。例如，文件夾1.11.3表示在版本號爲1.11.3的FATE基礎上部署FLDPCR。用戶在安裝是可以通過 `${version}`自行指定。
+
+### 2.1 部署前環境檢查
+
+檢查本地端口 8080、9360 和 9380 是否被佔用。
 
 ```bash
 netstat -apln|grep 8080;
@@ -29,139 +29,139 @@ netstat -apln|grep 9360;
 netstat -apln|grep 9380
 ```
 
-由于需要安装操作系统依赖包，所以需要 root 权限。您可以使用 root 用户执行后续操作，如果不使用 root 用户，请为要使用的用户分配 sudo 权限：
+由於需要安裝操作系統依賴包，所以需要 root 權限。您可以使用 root 用戶執行後續操作，如果不使用 root 用戶，請爲要使用的用戶分配 sudo 權限：
 
 ```bash
-echo "{要使用的用户名}  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{要使用的用户名}
+echo "{要使用的用戶名}  ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{要使用的用戶名}
 ```
 
 ### 2.2 FLDPCR4FATE的部署
 
-设置关联的FATE版本，可选的版本**参见本页面中以FATE版本号命名的文件夹**。
+設置關聯的FATE版本，可選的版本**參見本頁面中以FATE版本號命名的文件夾**。
 
 ```bash
 export version=1.11.3
 ```
 
-设置期望部署的文件夹，若用户指定 `${projName}`，后续将在当前目录的 `${projName}`文件夹下部署FLDPCR4FATE。请注意 `${projName}`文件夹应当在部署前不存在于当前目录。若${projName}不指定或未空，则默认部署到当前目录的 `fate` 文件夹。
+設置期望部署的文件夾，若用戶指定 `${projName}`，後續將在當前目錄的 `${projName}`文件夾下部署FLDPCR4FATE。請注意 `${projName}`文件夾應當在部署前不存在於當前目錄。若${projName}不指定或未空，則默認部署到當前目錄的 `fate` 文件夾。
 
 ```bash
 export projName=fate
 ```
 
-**直接执行如下命令即可完成本项目的部署。**
+**直接執行如下命令即可完成本項目的部署。**
 
 ```bash
 curl -s https://raw.githubusercontent.com/imcjp/FLDPCR4FATE/main/${version}/setup.sh | bash -s -- ${projName}
 ```
 
-### 2.3 安装
+### 2.3 安裝
 
-进入部署后的目录并使用 `bin/init.sh` 进行安装。
+進入部署後的目錄並使用 `bin/init.sh` 進行安裝。
 
-除了自动完成FATE框架所具有的任务，还将进一步完成以下任务：
+除了自動完成FATE框架所具有的任務，還將進一步完成以下任務：
 
-- 安装 Python 包 opacus-dpcr
-- 安装 GPU版的Pytorch（可选）
+- 安裝 Python 包 opacus-dpcr
+- 安裝 GPU版的Pytorch（可選）
 
 ```bash
 cd ${projName};
 bash bin/init.sh init
 ```
 
-- 若在执行 `bash bin/init.sh init` 时选择不安装GPU版运行库，后续也可以通过 `source bin/init_env.sh` 进入FATE环境安装，安装命令的参考如下：
+- 若在執行 `bash bin/init.sh init` 時選擇不安裝GPU版運行庫，後續也可以通過 `source bin/init_env.sh` 進入FATE環境安裝，安裝命令的參考如下：
 
 ```bash
-pip uninstall -y torch torchvision # 先卸载已有运行库
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 # 安装GPU版运行库
+pip uninstall -y torch torchvision # 先卸載已有運行庫
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 # 安裝GPU版運行庫
 ```
 
-### 2.4 启动
+### 2.4 啓動
 
 ```bash
-bash bin/init.sh status （可选）
+bash bin/init.sh status （可選）
 bash bin/init.sh start
-bash bin/init.sh status （可选，若顺利，则显示正在运行）
+bash bin/init.sh status （可選，若順利，則顯示正在運行）
 ```
 
-### 2.5 关闭
+### 2.5 關閉
 
-若需关闭，请使用如下命令
+若需關閉，請使用如下命令
 
 ```bash
 bash bin/init.sh stop
-bash bin/init.sh status （可选，若顺利，则显示关闭）
+bash bin/init.sh status （可選，若順利，則顯示關閉）
 ```
 
 
-## 3. 测试
-### 3.1 加载环境变量
+## 3. 測試
+### 3.1 加載環境變量
 
 ```bash
 source bin/init_env.sh
 ```
 
-### 3.2 上传数据
+### 3.2 上傳數據
 
-将本项目提供的MNIST数据集上传至FATE Flow。该MNIST数据集以CSV格式存储，被划分为20份平均。详情参见 'examples/data/mnist_csv/'。
+將本項目提供的MNIST數據集上傳至FATE Flow。該MNIST數據集以CSV格式存儲，被劃分爲20份平均。詳情參見 'examples/data/mnist_csv/'。
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/pipeline-upload-mnist.py
 ```
 
-### 3.3 启动隐私训练
+### 3.3 啓動隱私訓練
 
-**执行本项目所提供的FLDPCR学习示例。（使用SimpleMech，相当于传统的差分隐私）**
+**執行本項目所提供的FLDPCR學習示例。（使用SimpleMech，相當於傳統的差分隱私）**
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
 ```
 
-若没有GPU或未安装GPU运行库，建议执行以下CPU版本的示例：
+若沒有GPU或未安裝GPU運行庫，建議執行以下CPU版本的示例：
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 3 --gpuId -1
 ```
 
-#### 实验结果对比：
+#### 實驗結果對比：
 
-- 对于nIter=40，使用传统差分隐私的情况（dpcrModel=SimpleMech），命令如下：
+- 對於nIter=40，使用傳統差分隱私的情況（dpcrModel=SimpleMech），命令如下：
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0
 ```
 
-实验结果如下：
+實驗結果如下：
 ![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_SimpleMech.png)
 
-可以看出传统差分隐私学习方法效果并不好，40次训练下来Loss仍高达**3.41**。
+可以看出傳統差分隱私學習方法效果並不好，40次訓練下來Loss仍高達**3.41**。
 
-- 对于nIter=40，使用我们提出的BCRG方法（dpcrModel=BCRG，k=12），命令如下：
+- 對於nIter=40，使用我們提出的BCRG方法（dpcrModel=BCRG，k=12），命令如下：
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0 --dpcrModel BCRG --k 12
 ```
 
-实验结果如下：
+實驗結果如下：
 ![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_BCRG.png)
 
-可以看出BCRG已经极大降低了训练的Loss值，40次训练下来Loss降到了**0.68**。
+可以看出BCRG已經極大降低了訓練的Loss值，40次訓練下來Loss降到了**0.68**。
 
 
-- 对于nIter=40，使用BCRG方法的改进版本ABCRG（dpcrModel=ABCRG，k=12），命令如下：
+- 對於nIter=40，使用BCRG方法的改進版本ABCRG（dpcrModel=ABCRG，k=12），命令如下：
 
 ```bash
 python examples/pipeline/homo_nn/fldpcr/demo.py --nIter 40 --gpuId 0 --dpcrModel ABCRG --k 12
 ```
 
-实验结果如下：
+實驗結果如下：
 ![image](https://github.com/imcjp/FLDPCR4FATE/blob/main/assets/expResults/loss_ABCRG.png)
 
-可以看出ABCRG进一步降低训练的Loss值，40次训练下来Loss进一步降到了**0.635**。
+可以看出ABCRG進一步降低訓練的Loss值，40次訓練下來Loss進一步降到了**0.635**。
 
-**实验结论：我们提出的方法能够显著提升隐私联邦学习的训练效果。**
+**實驗結論：我們提出的方法能夠顯著提升隱私聯邦學習的訓練效果。**
 
-**demo.py脚步的参数说明如下：**
+**demo.py腳步的參數說明如下：**
 
 ```bash
 usage: demo.py [-h] [--nClient NCLIENT]
