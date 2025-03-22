@@ -11,7 +11,7 @@
 
 - **數量:** 1
 - **配置:** 8 核 / 16GB 內存 / 500GB 硬盤 / GPU(可選）
-- **操作系統:** CentOS (Ubuntu)
+- **操作系統:** Ubuntu
 - **用戶:** User: app owner:apps
 
 ## 2. FLDPCR4FATE的部署安裝
